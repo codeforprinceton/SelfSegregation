@@ -9,21 +9,21 @@ document.addEventListener("DOMContentLoaded", function() {
   var h = 500;
 
   //GeoJSON file list
-  var list_2010 = ['/data/2010/total_population.json', '/data/2010/race.json'];
+  var list_2010 = ['/data/2010/total_population.csv', '/data/2010/race.csv'];
 
-  //Define map projection
-  var projection = d3.geo.mercator()
-                         .translate([0, 0])
-                         .scale(1);
+  function plotData(filepath, year) {
 
-  //Define path generator
-  var path = d3.geo.path()
-                   .projection(projection);
+    //Define map projection
+    var projection = d3.geo.mercator()
+                           .translate([0, 0])
+                           .scale(1);
 
-  function plotJson(filepath, year) {
+    //Define path generator
+    var path = d3.geo.path()
+                     .projection(projection);
     
     //Load in GeoJSON data
-    d3.json(filepath, function(json) {
+    d3.json("/data/geojson/west_windsor_shape.json", function(json) {
 
       //Create SVG element
       var svg = d3.select(`section.year-${year}`)
@@ -51,13 +51,26 @@ document.addEventListener("DOMContentLoaded", function() {
          .attr("d", path)
          .style("fill", "steelblue");
       });
+
+    //Load the actual data onto the shape
+    d3.csv(filepath, function(data) {
+
+      for(var index in data) {
+        var entry = data[index];
+
+        if(entry.NAME.toLowerCase() === 'west windsor township') {
+          console.log('filepath is: ' + filepath);
+          console.log(entry);
+        }
+      }
+    });
   };
 
   //---FUNCTION CALLS---
 
   for(var i = 0; i < list_2010.length; i++) {
 
-    plotJson(list_2010[i], "2010");
+    plotData(list_2010[i], "2010");
   }
 
 });
