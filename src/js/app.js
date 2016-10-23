@@ -44,7 +44,7 @@ document.addEventListener("DOMContentLoaded", function() {
         .translate(t);
 
       //Bind data and create one path per GeoJSON feature
-      svg.select("path")
+      svg.selectAll("path")
          .data(json.features)
          .enter()
          .append("path")
