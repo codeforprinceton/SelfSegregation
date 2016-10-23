@@ -8,8 +8,11 @@ document.addEventListener("DOMContentLoaded", function() {
   var w = 960;
   var h = 500;
 
-  //GeoJSON file list
-  var list_2010 = ['/data/2010/total_population.csv', '/data/2010/race.csv'];
+  //CSV file list
+  var county_list_2010 = ['/data/county/2010/total_population.csv', '/data/county/2010/race.csv'];
+
+  //CSV file list
+  var tract_list_2010 = ['/data/tracts/2010/total_population.csv', '/data/tracts/2010/race.csv'];
 
   function plotData(filepath, year) {
 
@@ -23,7 +26,7 @@ document.addEventListener("DOMContentLoaded", function() {
                      .projection(projection);
     
     //Load in GeoJSON data
-    d3.json("/data/geojson/west_windsor_shape.json", function(json) {
+    d3.json("/data/county/geojson/west_windsor_shape.json", function(json) {
 
       //Create SVG element
       var svg = d3.select(`section.year-${year}`)
@@ -52,6 +55,10 @@ document.addEventListener("DOMContentLoaded", function() {
          .style("fill", "steelblue");
       });
 
+    loadCSVData(filepath);
+  };
+
+  function loadCSVData(filepath) {
     //Load the actual data onto the shape
     d3.csv(filepath, function(data) {
 
@@ -68,9 +75,9 @@ document.addEventListener("DOMContentLoaded", function() {
 
   //---FUNCTION CALLS---
 
-  for(var i = 0; i < list_2010.length; i++) {
+  for(var i = 0; i < county_list_2010.length; i++) {
 
-    plotData(list_2010[i], "2010");
+    plotData(county_list_2010[i], "2010");
   }
 
 });
