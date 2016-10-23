@@ -21,8 +21,8 @@ document.addEventListener("DOMContentLoaded", function() {
                    .projection(projection);
 
   function plotJson(filepath, year) {
+    
     //Load in GeoJSON data
-
     d3.json(filepath, function(json) {
 
       //Create SVG element
@@ -44,7 +44,7 @@ document.addEventListener("DOMContentLoaded", function() {
         .translate(t);
 
       //Bind data and create one path per GeoJSON feature
-      svg.selectAll("path")
+      svg.select("path")
          .data(json.features)
          .enter()
          .append("path")
@@ -55,8 +55,9 @@ document.addEventListener("DOMContentLoaded", function() {
 
   //---FUNCTION CALLS---
 
-  for(file in list_2010) {
-    plotJson(list_2010[file], "2010");
+  for(var i = 0; i < list_2010.length; i++) {
+
+    plotJson(list_2010[i], "2010");
   }
 
 });
